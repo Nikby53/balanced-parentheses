@@ -6,14 +6,15 @@ import (
 	"github.com/Nikby53/balanced-parentheses/bracketsGenerator"
 )
 
+// Generation function creates a random string of brackets of the entered length.
 func Generation(num int) (string, error) {
 	var parentheses = []rune("(){}[]")
 	if num <= 0 {
 		return "", bracketsGenerator.ErrIncorrectNumber
 	}
-	s := make([]rune, num)
-	for i := range s {
-		s[i] = parentheses[rand.Intn(len(parentheses))]
+	temp := make([]rune, num)
+	for i := range temp {
+		temp[i] = parentheses[rand.Intn(len(parentheses))]
 	}
-	return string(s), nil
+	return string(temp), nil
 }

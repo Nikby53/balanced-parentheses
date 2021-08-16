@@ -1,3 +1,4 @@
+// Package generator is for generation random sequence of brackets.
 package generator
 
 import (

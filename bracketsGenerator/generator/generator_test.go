@@ -15,14 +15,19 @@ func TestGeneration(t *testing.T) {
 		expectedError error
 	}{
 		{
-			name:          "success",
-			length:        1,
-			wantLength:    1,
-			expectedError: bracketsGenerator.ErrIncorrectNumber,
+			name:       "length 10000",
+			length:     10000,
+			wantLength: 10000,
 		},
 		{
 			name:          "negative number",
 			length:        -1,
+			wantLength:    0,
+			expectedError: bracketsGenerator.ErrIncorrectNumber,
+		},
+		{
+			name:          "zero value",
+			length:        0,
 			wantLength:    0,
 			expectedError: bracketsGenerator.ErrIncorrectNumber,
 		},

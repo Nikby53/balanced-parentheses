@@ -1,6 +1,9 @@
 package algorithm
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 func TestIsBalanced(t *testing.T) {
 	tests := []struct {
@@ -42,4 +45,11 @@ func TestIsBalanced(t *testing.T) {
 			}
 		})
 	}
+}
+
+func ExampleIsBalanced() {
+	result := IsBalanced("()[]{}")
+	fmt.Println(result)
+	// Output:
+	// true
 }

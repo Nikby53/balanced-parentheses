@@ -12,9 +12,9 @@ func Generation(num int) (string, error) {
 	if num <= 0 {
 		return "", bracketsGenerator.ErrIncorrectNumber
 	}
-	temp := make([]rune, num)
-	for i := range temp {
-		temp[i] = parentheses[rand.Intn(len(parentheses))]
+	generated := make([]rune, num)
+	for i := range generated {
+		generated[i] = parentheses[rand.Intn(len(parentheses))]
 	}
-	return string(temp), nil
+	return string(generated), nil
 }

@@ -2,6 +2,7 @@ package generator
 
 import (
 	"errors"
+	"fmt"
 	"testing"
 
 	"github.com/Nikby53/balanced-parentheses/bracketsGenerator"
@@ -43,4 +44,11 @@ func TestGeneration(t *testing.T) {
 			}
 		})
 	}
+}
+
+func ExampleGeneration() {
+	result, _ := Generation(5)
+	fmt.Println(len(result))
+	// Output:
+	// 5
 }

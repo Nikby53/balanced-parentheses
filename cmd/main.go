@@ -7,7 +7,6 @@ import (
 	"strconv"
 
 	"github.com/Nikby53/balanced-parentheses/bracketsGenerator"
-
 	"github.com/Nikby53/balanced-parentheses/bracketsGenerator/generator"
 )
 
@@ -21,7 +20,6 @@ func generationHandler(w http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		fmt.Fprintf(w, "%v", bracketsGenerator.ErrIncorrectInput)
 	}
-
 }
 
 func main() {

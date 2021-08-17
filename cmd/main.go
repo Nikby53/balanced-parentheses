@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/Nikby53/balanced-parentheses/bracketsGenerator/generator"
 	"log"
 	"net/http"
 
@@ -8,6 +9,7 @@ import (
 )
 
 func main() {
-	http.HandleFunc("/generate", handler.GenerationHandler)
+	h := handler.New(generator.Store{})
+	http.HandleFunc("/generate", h.GenerationHandler)
 	log.Fatal(http.ListenAndServe(":8081", nil))
 }

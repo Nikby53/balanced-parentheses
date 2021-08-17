@@ -12,17 +12,18 @@ type generationHandlerMock struct {
 	err  error
 }
 
-func (g *generationHandlerMock) Generation(num int) (string, error) {
-	return "", g.err
+func (g generationHandlerMock) Generation(_ int) (string, error) {
+	return "}]", g.err
 }
 
 func TestGenerationHandler(t *testing.T) {
-	req, err := http.NewRequest("GET", "localhost:8081/generate?n=2", nil)
-	if err != nil {
-		t.Fatalf("could not created request: %v", err)
-	}
+	req := httptest.NewRequest("GET", "localhost:8081/generate?n=2", nil)
 	rec := httptest.NewRecorder()
-	GenerationHandler(rec, req)
+	h := New(generationHandlerMock{
+		name: "1",
+		err:  nil,
+	})
+	h.GenerationHandler(rec, req)
 	res := rec.Result()
 	if res.StatusCode != http.StatusOK {
 		t.Errorf("expercted status Ok but got %v", res.Status)
@@ -31,7 +32,7 @@ func TestGenerationHandler(t *testing.T) {
 	if err != nil {
 		t.Fatalf("could not read response %v", err)
 	}
-	if len(string(b)) != 2 {
-		t.Fatalf("expected 2 but got %v", len(b))
+	if string(b) != "}]" {
+		t.Fatalf("expected 2 but got %v", b)
 	}
 }

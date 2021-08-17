@@ -1,5 +1,5 @@
-// Package algorithm implements function for balanced parentheses algorithm.
-package algorithm
+// Package balanced implements function for balanced parentheses balanced.
+package balanced
 
 // IsBalanced is a function that verifies if the given string is a balanced sequence of brackets.
 func IsBalanced(s string) bool {

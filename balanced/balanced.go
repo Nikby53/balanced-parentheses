@@ -14,7 +14,7 @@ func IsBalanced(s string) bool {
 		case v == '[' || v == '{' || v == '(':
 			stack = append(stack, v)
 		case v == ']' || v == '}' || v == ')':
-			if (len(stack) != 0 && parentheses[v] != stack[len(stack)-1]) || len(stack) == 0 {
+			if !(len(stack) != 0 && parentheses[v] == stack[len(stack)-1]) {
 				return false
 			}
 			stack = stack[:len(stack)-1]

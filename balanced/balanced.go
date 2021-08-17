@@ -8,19 +8,16 @@ func IsBalanced(s string) bool {
 		'}': '{',
 		')': '(',
 	}
-	if s == "" {
-		return false
-	}
 	var stack []rune
 	for _, v := range s {
-		n := len(stack) - 1
-		if v == '[' || v == '{' || v == '(' {
+		switch {
+		case v == '[' || v == '{' || v == '(':
 			stack = append(stack, v)
-		} else if v == ']' || v == '}' || v == ')' {
-			if (len(stack) != 0 && parentheses[v] != stack[n]) || len(stack) == 0 {
+		case v == ']' || v == '}' || v == ')':
+			if (len(stack) != 0 && parentheses[v] != stack[len(stack)-1]) || len(stack) == 0 {
 				return false
 			}
-			stack = stack[:n]
+			stack = stack[:len(stack)-1]
 		}
 	}
 	return len(stack) == 0

@@ -29,12 +29,17 @@ func TestIsBalanced(t *testing.T) {
 		{
 			name: "empty string",
 			in:   "",
-			want: false,
+			want: true,
 		},
 		{
 			name: "starts with closed one",
 			in:   "]})",
 			want: false,
+		},
+		{
+			name: "not brackets",
+			in:   "abc",
+			want: true,
 		},
 	}
 	for _, tt := range tests {

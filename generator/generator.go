@@ -6,16 +6,17 @@ import (
 	"math/rand"
 )
 
-// Generator ww.
+// Generator is an empty struct that is
+// also a receiver for Generate.
 type Generator struct{}
 
-var ErrIncorrectNumber = errors.New("enter a number that is greater than zero")
+var errIncorrectNumber = errors.New("enter a number that is greater than zero")
 
-// Generation function creates a random string of brackets of the entered length.
-func (g Generator) Generation(num int) (string, error) {
+// Generate method creates a random string of brackets of the entered length.
+func (g Generator) Generate(num int) (string, error) {
 	var parentheses = []rune("(){}[]")
 	if num <= 0 {
-		return "", ErrIncorrectNumber
+		return "", errIncorrectNumber
 	}
 	generated := make([]rune, num)
 	for i := range generated {

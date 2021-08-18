@@ -7,21 +7,19 @@ import (
 	"testing"
 )
 
-type ServiceMock struct {
-	name string
-	err  error
+type serviceMock struct {
+	err error
 }
 
-func (s ServiceMock) Generation(_ int) (string, error) {
+func (s serviceMock) Generate(_ int) (string, error) {
 	return "}]", s.err
 }
 
 func TestGenerationHandler(t *testing.T) {
 	req := httptest.NewRequest("GET", "localhost:8081/generate?n=2", nil)
 	rec := httptest.NewRecorder()
-	h := New(ServiceMock{
-		name: "1",
-		err:  nil,
+	h := New(serviceMock{
+		err: nil,
 	})
 	h.GenerationHandler(rec, req)
 	res := rec.Result()

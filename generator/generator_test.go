@@ -23,18 +23,18 @@ func TestGeneration(t *testing.T) {
 			name:          "negative number",
 			length:        -1,
 			wantLength:    0,
-			expectedError: ErrIncorrectNumber,
+			expectedError: errIncorrectNumber,
 		},
 		{
 			name:          "zero value",
 			length:        0,
 			wantLength:    0,
-			expectedError: ErrIncorrectNumber,
+			expectedError: errIncorrectNumber,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			res, err := tt.generator.Generation(tt.length)
+			res, err := tt.generator.Generate(tt.length)
 			if tt.wantLength != len(res) {
 				t.Errorf("expected length %v instead of %v", tt.wantLength, res)
 			}
@@ -45,8 +45,8 @@ func TestGeneration(t *testing.T) {
 	}
 }
 
-func ExampleGeneration() {
-	result, _ := Generator{}.Generation(5)
+func ExampleGenerator_Generate() {
+	result, _ := Generator{}.Generate(5)
 	fmt.Println(len(result))
 	// Output:
 	// 5

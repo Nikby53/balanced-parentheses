@@ -6,30 +6,35 @@ import (
 	"strconv"
 )
 
+// Handler is struct that holds BracketsGenerator
+// interface and responsible for all possible handlers which are its methods.
 type Handler struct {
-	Generator GenerationRepo
+	Generator BracketsGenerator
 }
 
-// ErrIncorrectInput checks for incorrect input.
-var ErrIncorrectInput = errors.New("incorrect input, please input a number")
+var errIncorrectInput = errors.New("incorrect input, please input a number")
 
-func New(gen GenerationRepo) Handler {
-	return Handler{Generator: gen}
+// New function is a constructor for Handler.
+func New(b BracketsGenerator) Handler {
+	return Handler{Generator: b}
 }
 
-type GenerationRepo interface {
-	Generation(num int) (string, error)
+// BracketsGenerator is an interface that describes method
+// for generating parentheses.
+type BracketsGenerator interface {
+	Generate(num int) (string, error)
 }
 
+// GenerationHandler is a handler.
 func (h Handler) GenerationHandler(w http.ResponseWriter, req *http.Request) {
 	number, err := strconv.Atoi(req.URL.Query().Get("n"))
 	if err != nil {
-		http.Error(w, ErrIncorrectInput.Error(), http.StatusBadRequest)
+		http.Error(w, errIncorrectInput.Error(), http.StatusBadRequest)
 		return
 	}
-	temp, _ := h.Generator.Generation(number)
+	temp, _ := h.Generator.Generate(number)
 	_, err = w.Write([]byte(temp))
 	if err != nil {
-		http.Error(w, ErrIncorrectInput.Error(), http.StatusBadRequest)
+		http.Error(w, errIncorrectInput.Error(), http.StatusBadRequest)
 	}
 }

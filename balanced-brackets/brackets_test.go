@@ -1,4 +1,4 @@
-package balanced
+package brackets
 
 import (
 	"fmt"
@@ -12,12 +12,12 @@ func TestIsBalanced(t *testing.T) {
 		want bool
 	}{
 		{
-			name: "balanced",
+			name: "balanced-brackets",
 			in:   "{[{}]()}",
 			want: true,
 		},
 		{
-			name: "all parentheses with numbers are balanced",
+			name: "all parentheses with numbers are balanced-brackets",
 			in:   "(((1 + 2) * 3) - 4)/5",
 			want: true,
 		},

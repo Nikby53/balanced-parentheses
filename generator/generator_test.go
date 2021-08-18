@@ -4,13 +4,11 @@ import (
 	"errors"
 	"fmt"
 	"testing"
-
-	"github.com/Nikby53/balanced-parentheses/bracketsGenerator"
 )
 
 func TestGeneration(t *testing.T) {
 	tests := []struct {
-		store         Store
+		generator     Generator
 		name          string
 		length        int
 		wantLength    int
@@ -25,18 +23,18 @@ func TestGeneration(t *testing.T) {
 			name:          "negative number",
 			length:        -1,
 			wantLength:    0,
-			expectedError: bracketsGenerator.ErrIncorrectNumber,
+			expectedError: ErrIncorrectNumber,
 		},
 		{
 			name:          "zero value",
 			length:        0,
 			wantLength:    0,
-			expectedError: bracketsGenerator.ErrIncorrectNumber,
+			expectedError: ErrIncorrectNumber,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			res, err := tt.store.Generation(tt.length)
+			res, err := tt.generator.Generation(tt.length)
 			if tt.wantLength != len(res) {
 				t.Errorf("expected length %v instead of %v", tt.wantLength, res)
 			}
@@ -48,7 +46,7 @@ func TestGeneration(t *testing.T) {
 }
 
 func ExampleGeneration() {
-	result, _ := Store{}.Generation(5)
+	result, _ := Generator{}.Generation(5)
 	fmt.Println(len(result))
 	// Output:
 	// 5

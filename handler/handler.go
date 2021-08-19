@@ -6,23 +6,23 @@ import (
 	"strconv"
 )
 
+var errIncorrectInput = errors.New("incorrect input, please input a number")
+
+// BracketsGenerator is an interface that describes method
+// for generating parentheses.
+type BracketsGenerator interface {
+	Generate(num int) (string, error)
+}
+
 // Handler is struct that holds BracketsGenerator
 // interface and responsible for all possible handlers which are its methods.
 type Handler struct {
 	Generator BracketsGenerator
 }
 
-var errIncorrectInput = errors.New("incorrect input, please input a number")
-
 // New function is a constructor for Handler.
 func New(b BracketsGenerator) Handler {
 	return Handler{Generator: b}
-}
-
-// BracketsGenerator is an interface that describes method
-// for generating parentheses.
-type BracketsGenerator interface {
-	Generate(num int) (string, error)
 }
 
 // GenerationHandler is a handler.

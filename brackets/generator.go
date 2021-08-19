@@ -1,16 +1,16 @@
-// Package generator is for generation random sequence of brackets.
-package generator
+// Package brackets implements function for brackets parentheses.
+package brackets
 
 import (
 	"errors"
 	"math/rand"
 )
 
+var errIncorrectNumber = errors.New("enter a number that is greater than zero")
+
 // Generator is an empty struct that is
 // also a receiver for Generate.
 type Generator struct{}
-
-var errIncorrectNumber = errors.New("enter a number that is greater than zero")
 
 // Generate method creates a random string of brackets of the entered length.
 func (g Generator) Generate(num int) (string, error) {

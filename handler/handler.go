@@ -8,6 +8,8 @@ import (
 
 var errIncorrectInput = errors.New("incorrect input, please input a number")
 
+var errUnexpectedServer = errors.New("unexpected server error")
+
 // BracketsGenerator is an interface that describes method
 // for generating parentheses.
 type BracketsGenerator interface {
@@ -32,9 +34,12 @@ func (h Handler) GenerationHandler(w http.ResponseWriter, req *http.Request) {
 		http.Error(w, errIncorrectInput.Error(), http.StatusBadRequest)
 		return
 	}
-	temp, _ := h.Generator.Generate(number)
+	temp, err := h.Generator.Generate(number)
+	if err != nil {
+		http.Error(w, errUnexpectedServer.Error(), http.StatusInternalServerError)
+	}
 	_, err = w.Write([]byte(temp))
 	if err != nil {
-		http.Error(w, errIncorrectInput.Error(), http.StatusBadRequest)
+		http.Error(w, errUnexpectedServer.Error(), http.StatusInternalServerError)
 	}
 }

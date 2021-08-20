@@ -1,14 +1,32 @@
 package handler
 
 import (
-	"errors"
+	"fmt"
 	"net/http"
 	"strconv"
 )
 
-var errIncorrectInput = errors.New("incorrect input, please input a number")
+type generationHandler struct {
+	number int
+}
 
-var errUnexpectedServer = errors.New("unexpected server error")
+// Validate method is for validating handler.
+func (g *generationHandler) Validate(r *http.Request) error {
+	query := r.URL.Query()
+	number := query.Get("n")
+	if number == "" {
+		return fmt.Errorf("number query parametres is required")
+	}
+	temp, err := strconv.Atoi(number)
+	if err != nil {
+		return fmt.Errorf("query parameter should be number")
+	}
+	if temp < 1 {
+		return fmt.Errorf("parameter should be greater than zero")
+	}
+	g.number = temp
+	return nil
+}
 
 // BracketsGenerator is an interface that describes method
 // for generating parentheses.
@@ -29,17 +47,18 @@ func New(b BracketsGenerator) Handler {
 
 // GenerationHandler is a handler.
 func (h Handler) GenerationHandler(w http.ResponseWriter, req *http.Request) {
-	number, err := strconv.Atoi(req.URL.Query().Get("n"))
+	var genHandler generationHandler
+	err := genHandler.Validate(req)
 	if err != nil {
-		http.Error(w, errIncorrectInput.Error(), http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	temp, err := h.Generator.Generate(number)
+	temp, err := h.Generator.Generate(genHandler.number)
 	if err != nil {
-		http.Error(w, errUnexpectedServer.Error(), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 	_, err = w.Write([]byte(temp))
 	if err != nil {
-		http.Error(w, errUnexpectedServer.Error(), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }

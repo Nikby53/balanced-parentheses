@@ -9,11 +9,10 @@ import (
 
 type serviceMock struct {
 	res string
-	err error
 }
 
 func (s serviceMock) Generate(_ int) (string, error) {
-	return s.res, s.err
+	return s.res, nil
 }
 
 func TestGenerationHandler(t *testing.T) {
@@ -21,7 +20,7 @@ func TestGenerationHandler(t *testing.T) {
 		req := httptest.NewRequest("GET", "localhost:8081/generate?n=2", nil)
 		rec := httptest.NewRecorder()
 		resMock := "}]"
-		h := New(serviceMock{res: resMock, err: nil})
+		h := New(serviceMock{res: resMock})
 		h.GenerationHandler(rec, req)
 		res := rec.Result()
 		if res.StatusCode != http.StatusOK {
@@ -39,7 +38,7 @@ func TestGenerationHandler(t *testing.T) {
 		req := httptest.NewRequest("GET", "localhost:8081/generate", nil)
 		rec := httptest.NewRecorder()
 		resMock := "}]"
-		h := New(serviceMock{res: resMock, err: nil})
+		h := New(serviceMock{res: resMock})
 		h.GenerationHandler(rec, req)
 		res := rec.Result()
 		if res.StatusCode != http.StatusBadRequest {
@@ -57,7 +56,7 @@ func TestGenerationHandler(t *testing.T) {
 		req := httptest.NewRequest("GET", "localhost:8081/generate?n=-2", nil)
 		rec := httptest.NewRecorder()
 		resMock := "}]"
-		h := New(serviceMock{res: resMock, err: nil})
+		h := New(serviceMock{res: resMock})
 		h.GenerationHandler(rec, req)
 		res := rec.Result()
 		if res.StatusCode != http.StatusBadRequest {
@@ -75,7 +74,7 @@ func TestGenerationHandler(t *testing.T) {
 		req := httptest.NewRequest("GET", "localhost:8081/generate?n=qweqweq", nil)
 		rec := httptest.NewRecorder()
 		resMock := "}]"
-		h := New(serviceMock{res: resMock, err: nil})
+		h := New(serviceMock{res: resMock})
 		h.GenerationHandler(rec, req)
 		res := rec.Result()
 		if res.StatusCode != http.StatusBadRequest {

@@ -73,7 +73,7 @@ func TestGenerationRequest_Validate(t *testing.T) {
 		{
 			name:          "less than zero",
 			have:          "localhost:8081/generate?n=-2",
-			expectedError: errGreaterThanZero,
+			expectedError: errLessThanZero,
 		},
 		{
 			name:          "should be number",

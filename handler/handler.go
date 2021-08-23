@@ -11,9 +11,9 @@ type generationRequest struct {
 }
 
 var (
-	errNumberRequired  = errors.New("number query parameters is required")
-	errShouldBeNumber  = errors.New("query parameter should be number")
-	errGreaterThanZero = errors.New("parameter should be greater than zero")
+	errNumberRequired = errors.New("number query parameters is required")
+	errShouldBeNumber = errors.New("query parameter should be number")
+	errLessThanZero   = errors.New("parameter should be greater than zero")
 )
 
 // Validate method is for validating handler request.
@@ -28,7 +28,7 @@ func (g *generationRequest) Validate(r *http.Request) error {
 		return errShouldBeNumber
 	}
 	if temp < 1 {
-		return errGreaterThanZero
+		return errLessThanZero
 	}
 	g.number = temp
 	return nil

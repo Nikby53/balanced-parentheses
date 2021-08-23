@@ -13,7 +13,7 @@ func (s serviceMock) Generate(_ int) (string, error) {
 	return "}]", nil
 }
 
-func HandlerTest(t *testing.T, status int, parameter string) func(t *testing.T) {
+func HandlerTest(status int, parameter string) func(t *testing.T) {
 	return func(t *testing.T) {
 		t.Helper()
 		req := httptest.NewRequest("GET", "localhost:8081/generate"+parameter, nil)
@@ -28,10 +28,10 @@ func HandlerTest(t *testing.T, status int, parameter string) func(t *testing.T) 
 }
 
 func TestGenerationHandler(t *testing.T) {
-	t.Run("success", HandlerTest(t, 200, "?n=2"))
-	t.Run("number query parameters is required", HandlerTest(t, 400, ""))
-	t.Run("query parameter should be number", HandlerTest(t, 400, "hello"))
-	t.Run("parameter should be greater than zero", HandlerTest(t, 400, "?n=-2"))
+	t.Run("success", HandlerTest(200, "?n=2"))
+	t.Run("number query parameters is required", HandlerTest(400, ""))
+	t.Run("query parameter should be number", HandlerTest(400, "hello"))
+	t.Run("parameter should be greater than zero", HandlerTest(400, "?n=-2"))
 }
 
 func TestGenerationRequest_Validate(t *testing.T) {

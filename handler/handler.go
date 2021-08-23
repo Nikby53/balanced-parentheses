@@ -1,28 +1,34 @@
 package handler
 
 import (
-	"fmt"
+	"errors"
 	"net/http"
 	"strconv"
 )
 
-type generationHandler struct {
+type generationRequest struct {
 	number int
 }
 
-// Validate method is for validating handler.
-func (g *generationHandler) Validate(r *http.Request) error {
+var (
+	errNumberRequired  = errors.New("number query parameters is required")
+	errShouldBeNumber  = errors.New("query parameter should be number")
+	errGreaterThanZero = errors.New("parameter should be greater than zero")
+)
+
+// Validate method is for validating handler request.
+func (g *generationRequest) Validate(r *http.Request) error {
 	query := r.URL.Query()
 	number := query.Get("n")
 	if number == "" {
-		return fmt.Errorf("number query parametres is required")
+		return errNumberRequired
 	}
 	temp, err := strconv.Atoi(number)
 	if err != nil {
-		return fmt.Errorf("query parameter should be number")
+		return errShouldBeNumber
 	}
 	if temp < 1 {
-		return fmt.Errorf("parameter should be greater than zero")
+		return errGreaterThanZero
 	}
 	g.number = temp
 	return nil
@@ -47,7 +53,7 @@ func New(b BracketsGenerator) Handler {
 
 // GenerationHandler is a handler.
 func (h Handler) GenerationHandler(w http.ResponseWriter, req *http.Request) {
-	var genHandler generationHandler
+	var genHandler generationRequest
 	err := genHandler.Validate(req)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)

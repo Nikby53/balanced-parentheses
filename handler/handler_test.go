@@ -7,55 +7,31 @@ import (
 	"testing"
 )
 
-type serviceMock struct {
-	res string
-}
+type serviceMock struct{}
 
 func (s serviceMock) Generate(_ int) (string, error) {
-	return s.res, nil
+	return "}]", nil
 }
 
-func Success(t testing.TB, req *http.Request) {
-	t.Helper()
-	rec := httptest.NewRecorder()
-	resMock := "}]"
-	h := New(serviceMock{res: resMock})
-	h.GenerationHandler(rec, req)
-	res := rec.Result()
-	if res.StatusCode != http.StatusOK {
-		t.Errorf("expected status Ok, but got %v", res.Status)
-	}
-}
-
-func Error(t testing.TB, req *http.Request) {
-	t.Helper()
-	rec := httptest.NewRecorder()
-	resMock := "}]"
-	h := New(serviceMock{res: resMock})
-	h.GenerationHandler(rec, req)
-	res := rec.Result()
-	if res.StatusCode != http.StatusBadRequest {
-		t.Errorf("expected status Ok, but got %v", res.Status)
+func HandlerTest(t *testing.T, status int, parameter string) func(t *testing.T) {
+	return func(t *testing.T) {
+		t.Helper()
+		req := httptest.NewRequest("GET", "localhost:8081/generate"+parameter, nil)
+		rec := httptest.NewRecorder()
+		h := New(serviceMock{})
+		h.GenerationHandler(rec, req)
+		res := rec.Result()
+		if res.StatusCode != status {
+			t.Errorf("expected status %v, but got %v", status, res.Status)
+		}
 	}
 }
 
 func TestGenerationHandler(t *testing.T) {
-	t.Run("success", func(t *testing.T) {
-		req := httptest.NewRequest("GET", "localhost:8081/generate?n=2", nil)
-		Success(t, req)
-	})
-	t.Run("no query parameter", func(t *testing.T) {
-		req := httptest.NewRequest("GET", "localhost:8081/generate", nil)
-		Error(t, req)
-	})
-	t.Run("less than zero", func(t *testing.T) {
-		req := httptest.NewRequest("GET", "localhost:8081/generate?n=-2", nil)
-		Error(t, req)
-	})
-	t.Run("not a number", func(t *testing.T) {
-		req := httptest.NewRequest("GET", "localhost:8081/generate?n=qweqweq", nil)
-		Error(t, req)
-	})
+	t.Run("success", HandlerTest(t, 200, "?n=2"))
+	t.Run("number query parameters is required", HandlerTest(t, 400, ""))
+	t.Run("query parameter should be number", HandlerTest(t, 400, "hello"))
+	t.Run("parameter should be greater than zero", HandlerTest(t, 400, "?n=-2"))
 }
 
 func TestGenerationRequest_Validate(t *testing.T) {

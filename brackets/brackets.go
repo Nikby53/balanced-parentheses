@@ -1,7 +1,7 @@
-// Package brackets implements function for balanced-brackets parentheses.
+// Package brackets implements function for brackets parentheses.
 package brackets
 
-// IsBalanced is a function that verifies if the given string is a balanced-brackets sequence of brackets.
+// IsBalanced gets a string and returns true if the parentheses are balanced.
 func IsBalanced(s string) bool {
 	var parentheses = map[rune]rune{
 		']': '[',

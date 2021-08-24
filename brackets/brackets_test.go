@@ -12,12 +12,12 @@ func TestIsBalanced(t *testing.T) {
 		want bool
 	}{
 		{
-			name: "balanced-brackets",
+			name: "all brackets are balanced",
 			in:   "{[{}]()}",
 			want: true,
 		},
 		{
-			name: "all parentheses with numbers are balanced-brackets",
+			name: "all parentheses with numbers are balanced",
 			in:   "(((1 + 2) * 3) - 4)/5",
 			want: true,
 		},

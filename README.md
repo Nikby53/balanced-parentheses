@@ -1,2 +1,3 @@
 # balanced-parentheses
-Function is verifies if the given string is a balanced sequence of brackets.
+It's a parentheses web service that generates a random sequence of parentheses of the length n.
+Request GET/generate?n={length} 

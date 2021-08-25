@@ -12,5 +12,6 @@ import (
 func main() {
 	h := handler.New(brackets.Generator{})
 	http.HandleFunc("/generate", h.GenerationHandler)
+	http.HandleFunc("/calculate", h.CalculationHandler)
 	log.Fatal(http.ListenAndServe(":8081", nil))
 }

@@ -2,8 +2,11 @@ package handler
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
 	"strconv"
+
+	"github.com/Nikby53/balanced-parentheses/brackets"
 )
 
 type generationRequest struct {
@@ -67,4 +70,21 @@ func (h Handler) GenerationHandler(w http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
+}
+
+// CalculationHandler is a calculation handler.
+func (h Handler) CalculationHandler(w http.ResponseWriter, req *http.Request) {
+	var genHandler generationRequest
+	err := genHandler.Validate(req)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	temp, err := brackets.CalculateOfBalanced(genHandler.number)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	fmt.Fprintf(w, "Random parentheses generated. Look at the console to check the balance percentage.")
+	fmt.Println(temp)
 }

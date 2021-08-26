@@ -36,6 +36,6 @@ func CalculateOfBalanced(length int, quantity int) (float64, error) {
 		}()
 	}
 	wg.Wait()
-	percentBalanced := count * 100.00 / 1000.00
+	percentBalanced := count * 100.00 / float64(quantity)
 	return percentBalanced, nil
 }

@@ -17,7 +17,7 @@ func CalculateOfBalanced(length int) (float64, error) {
 		count float64
 	)
 	if length <= 0 {
-		return float64(length), errIncorrectInput
+		return 0, errIncorrectInput
 	}
 	for i := 0; i < 1000; i++ {
 		wg.Add(1)

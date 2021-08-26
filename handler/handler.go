@@ -80,7 +80,7 @@ func (h Handler) CalculationHandler(w http.ResponseWriter, req *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	temp, err := brackets.CalculateOfBalanced(genHandler.number)
+	temp, err := brackets.CalculateOfBalanced(genHandler.number, 1000)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

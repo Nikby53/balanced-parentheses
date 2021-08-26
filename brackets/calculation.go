@@ -16,24 +16,29 @@ func CalculateOfBalanced(length int, quantity int) (float64, error) {
 		mutex sync.Mutex
 		count float64
 	)
+	cs := make(chan string, quantity)
 	if length <= 0 {
 		return 0, errIncorrectInput
 	}
 	for i := 0; i < quantity; i++ {
-		wg.Add(1)
-		go func() {
+		wg.Add(2)
+		go func(ch chan string) {
 			defer wg.Done()
 			parentheses, err := Generator{}.Generate(length)
+			ch <- parentheses
 			if err != nil {
 				log.Println(err)
 				return
 			}
-			if IsBalanced(parentheses) {
+		}(cs)
+		go func(ch <-chan string) {
+			defer wg.Done()
+			if IsBalanced(<-ch) {
 				mutex.Lock()
 				count++
 				mutex.Unlock()
 			}
-		}()
+		}(cs)
 	}
 	wg.Wait()
 	percentBalanced := count * 100.00 / float64(quantity)

@@ -80,11 +80,11 @@ func (h Handler) CalculationHandler(w http.ResponseWriter, req *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	temp, err := brackets.CalculateOfBalanced(genHandler.number, 1000)
+	percent, err := brackets.CalculateOfBalanced(genHandler.number, 1000)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	fmt.Fprintf(w, "Random parentheses generated. Look at the console to check the balance percentage.")
-	fmt.Println(temp)
+	fmt.Println(percent)
 }

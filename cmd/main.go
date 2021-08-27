@@ -5,7 +5,6 @@ import (
 	"net/http"
 
 	"github.com/Nikby53/balanced-parentheses/brackets"
-
 	"github.com/Nikby53/balanced-parentheses/handler"
 )
 

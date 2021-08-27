@@ -24,6 +24,10 @@ func handlerGenerationTest(status int, parameter string) func(t *testing.T) {
 		if res.StatusCode != status {
 			t.Errorf("expected status %v, but got %v", status, res.Status)
 		}
+		err := res.Body.Close()
+		if err != nil {
+			t.Errorf("no error expected, but got %v", err)
+		}
 	}
 }
 
@@ -37,6 +41,10 @@ func handlerCalculationTest(status int, parameter string) func(t *testing.T) {
 		res := rec.Result()
 		if res.StatusCode != status {
 			t.Errorf("expected status %v, but got %v", status, res.Status)
+		}
+		err := res.Body.Close()
+		if err != nil {
+			t.Errorf("no error expected, but got %v", err)
 		}
 	}
 }

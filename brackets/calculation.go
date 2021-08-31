@@ -8,7 +8,7 @@ import (
 var errIncorrectInput = errors.New("incorrect input, please enter a number from 1")
 
 // CalculateOfBalanced method is for calculating the percent
-// of balanced brackets of a certain length.
+// of balanced brackets of на бa certain length.
 func CalculateOfBalanced(length, quantity int) (float64, error) {
 	cs := make(chan bool, quantity)
 	if length <= 0 {
@@ -18,7 +18,7 @@ func CalculateOfBalanced(length, quantity int) (float64, error) {
 		go func(ch chan<- bool) {
 			parentheses, err := Generator{}.Generate(length)
 			if err != nil {
-				log.Println(err)
+				log.Fatal(err)
 				return
 			}
 			ch <- IsBalanced(parentheses)
